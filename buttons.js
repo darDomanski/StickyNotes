@@ -7,12 +7,18 @@ var noteToDrag;
 var offsetX = 0;
 var offsetY = 0;
 
-function addNote(event) {
-    event = event || window.event;
-
+function addNote(ev, noteConfiguration) {
+    var ev = ev || window.event;
+    var noteConfiguration = noteConfiguration || {
+        id: 'id_' + Date.now(),
+        title: "",
+        content: "",
+        position: 'translateX(' + Math.random() * 400 + 'px) translateY(' + Math.random() * 400 + 'px)'
+    };
+    // console.log(noteConfiguration);
     var noteDiv = document.createElement('div');
     noteDiv.setAttribute('class', 'note');
-    noteDiv.setAttribute('id', 'id_' + Date.now());
+    noteDiv.setAttribute('id', noteConfiguration.id);
 
     var barDiv = document.createElement('div');
     barDiv.setAttribute('class', 'bar');
@@ -26,17 +32,16 @@ function addNote(event) {
     })
 
     var titleTextArea = createTitleTxtArea();
-    // titleTextArea.innerHTML = title || '';
+    titleTextArea.value = noteConfiguration.title;
     var noteContentTextArea = createNoteContentTxtArea();
-    // noteContentTextArea.innerHTML = content || '';
+    noteContentTextArea.value = noteConfiguration.content;
 
     barDiv.appendChild(deleteButton);
     noteDiv.appendChild(barDiv);
     noteDiv.appendChild(titleTextArea);
     noteDiv.appendChild(noteContentTextArea);
 
-    var randomPosition = 'translateX(' + Math.random() * 400 + 'px) translateY(' + Math.random() * 400 + 'px)';
-    noteDiv.style.transform = randomPosition;
+    noteDiv.style.transform = noteConfiguration.position;
     noteDiv.addEventListener('mouseover', function () {
         noteDiv.style.zIndex = 1;
         noteDiv.style.background = 'red';
@@ -106,6 +111,34 @@ function onDragStop() {
     noteToDrag = null;
 };
 
+window.onbeforeunload = function () {
+    var allNotes = document.getElementsByClassName("note");
+
+    for (var i = 0; i < allNotes.length; i++) {
+        var noteToSave = allNotes[i];
+        var noteToSaveConfiguration = {
+            id: noteToSave.id,
+            title: noteToSave.getElementsByClassName("title")[0].value,
+            content: noteToSave.getElementsByClassName("note_content")[0].value,
+            position: noteToSave.style.transform
+        }
+        localStorage.setItem(noteToSave.id, JSON.stringify(noteToSaveConfiguration));
+    }
+};
+
+window.onload = function (ev) {
+    var ev = ev || window.event;
+    console.log(localStorage);
+
+    for (var i = 0; i < localStorage.length; i++) {
+
+        var noteConfStringified = localStorage.getItem(localStorage.key(i));
+        var noteToLoadConf = JSON.parse(noteConfStringified);
+        console.log(noteToLoadConf);
+        addNote(ev, noteToLoadConf);
+    }
+    localStorage.clear();
+};
 
 
 addNoteButton.addEventListener('click', addNote, false);
