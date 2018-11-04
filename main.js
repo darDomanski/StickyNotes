@@ -2,6 +2,7 @@
     'use strict'
 
     var addNoteButton = document.getElementById('add_note_button');
+    var removeAllNotesButton = document.getElementById('remove_all_notes_button');
     var grabPointX;
     var grabPointY;
     var noteToDrag;
@@ -116,6 +117,15 @@
         noteToDrag = null;
     };
 
+    function removeAllNotes() {
+        var notesToRemove = document.getElementsByClassName('note');
+
+        while (notesToRemove[0]) {
+            notesToRemove[0].parentNode.removeChild(notesToRemove[0]);
+
+        }
+    };
+
     window.onbeforeunload = function () {
         var allNotes = document.getElementsByClassName("note");
 
@@ -146,6 +156,7 @@
 
 
     addNoteButton.addEventListener('click', addNote, false);
+    removeAllNotesButton.addEventListener('click', removeAllNotes, false);
     document.addEventListener('mousemove', onDrag, false);
     document.addEventListener('mouseup', onDragStop, false);
 
