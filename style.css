@@ -7,10 +7,12 @@ body {
 
 h1 {
     font-size: 5vh;
+    margin: 30px;
 }
 
 p {
     font-size: 3vh;
+    margin: 20px;
 }
 
 .note {
