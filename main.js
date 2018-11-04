@@ -118,12 +118,15 @@
     };
 
     function removeAllNotes() {
-        var notesToRemove = document.getElementsByClassName('note');
+        if (confirm("Are you sure? All notes will be lost!")) {
 
-        while (notesToRemove[0]) {
-            notesToRemove[0].parentNode.removeChild(notesToRemove[0]);
+            var notesToRemove = document.getElementsByClassName('note');
 
+            while (notesToRemove[0]) {
+                notesToRemove[0].parentNode.removeChild(notesToRemove[0]);
+            }
         }
+
     };
 
     window.onbeforeunload = function () {
