@@ -50,15 +50,19 @@ p {
     min-height: 200px;
 }
 
-#add_note_button {
+#add_note_button, #remove_all_notes_button {
     box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
     width: 200px;
     height: 50px;
     background: white;
     border: 1px solid black;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+
 }
 
-#add_note_button:hover {
+#add_note_button:hover, #remove_all_notes_button:hover {
     background: whitesmoke;
     cursor: pointer;
 }
