@@ -98,6 +98,14 @@
         var positionX = ev.clientX - grabPointX;
         var positionY = ev.clientY - grabPointY;
 
+        if (positionX < 0) {
+            positionX = 0;
+        }
+
+        if (positionY < 0) {
+            positionY = 0;
+        }
+
         noteToDrag.style.left = positionX + 'px';
         noteToDrag.style.top = positionY + 'px';
     };
